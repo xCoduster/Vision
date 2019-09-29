@@ -1,0 +1,3 @@
+[submodule "Vision/vendor/spdlog"]
+	path = Vision/vendor/spdlog
+	url = https://github.com/gabime/spdlog
