@@ -1,7 +1,5 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
 #include "Core.h"
 
 namespace Vision {
@@ -21,32 +19,19 @@ namespace Vision {
 	class Window
 	{
 	public:
-		Window(const WindowProps& props = WindowProps());
-		~Window();
+		virtual ~Window() {}
 
-		inline unsigned int GetWidth() const { return m_Data.Width; }
-		inline unsigned int GetHeight() const { return m_Data.Height; }
+		virtual unsigned int GetWidth() const = 0;
+		virtual unsigned int GetHeight() const = 0;
 
-		inline sf::RenderWindow* GetNativeWindow() const { return m_Window; }
+		virtual void SetVSync(bool enabled) = 0;
+		virtual void SetFramerateLimit(unsigned int frames) = 0;
+		virtual inline bool IsVSync() const = 0;
+		virtual bool IsOpen() const = 0;
 
-		void SetVSync(bool enabled);
-		void SetFramerateLimit(unsigned int frames);
-		inline bool IsVSync() const { return m_Data.VSync; }
+		virtual void* GetNativeWindow() const = 0;
 
-		bool IsOpen() const;
-	private:
-		void Init(const WindowProps& props);
-	private:
-		sf::RenderWindow* m_Window;
-
-		struct WindowData
-		{
-			std::string Title;
-			unsigned int Width, Height;
-			bool VSync;
-		};
-
-		WindowData m_Data;
+		static Window* Create(const WindowProps& props);
 	};
 
 }

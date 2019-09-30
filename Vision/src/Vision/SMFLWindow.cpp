@@ -1,34 +1,34 @@
 #include "vipch.h"
-#include "Window.h"
+#include "SFMLWindow.h"
 
 namespace Vision {
 
-	Window::Window(const WindowProps& props)
+	SFMLWindow::SFMLWindow(const WindowProps& props)
 	{
 		Init(props);
 	}
 
-	Window::~Window()
+	SFMLWindow::~SFMLWindow()
 	{
 		delete m_Window;
 	}
 
-	void Window::SetVSync(bool enabled)
+	void SFMLWindow::SetVSync(bool enabled)
 	{
 		m_Window->setVerticalSyncEnabled(enabled);
 	}
 
-	void Window::SetFramerateLimit(unsigned int frames)
+	void SFMLWindow::SetFramerateLimit(unsigned int frames)
 	{
 		m_Window->setFramerateLimit(frames);
 	}
 
-	bool Window::IsOpen() const
+	bool SFMLWindow::IsOpen() const
 	{
 		return m_Window->isOpen();
 	}
 
-	void Window::Init(const WindowProps& props)
+	void SFMLWindow::Init(const WindowProps& props)
 	{
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
@@ -36,6 +36,11 @@ namespace Vision {
 
 		m_Window = new sf::RenderWindow(sf::VideoMode(m_Data.Width, m_Data.Height), m_Data.Title);
 
+	}
+
+	Window* Window::Create(const WindowProps& props)
+	{
+		return new SFMLWindow(props);
 	}
 
 }

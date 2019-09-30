@@ -3,6 +3,9 @@
 
 #include "Vision/Log.h"
 
+#include "SFMLWindow.h"
+#include <SFML/Graphics.hpp>
+
 namespace Vision {
 
 	Application* Application::s_Instance = nullptr;
@@ -12,7 +15,7 @@ namespace Vision {
 		VI_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 		
-		m_Window = std::unique_ptr<Window>(new Window());
+		m_Window = Window::Create(WindowProps());
 	}
 
 	void Application::Run()
@@ -20,7 +23,7 @@ namespace Vision {
 		while (m_Window->IsOpen())
 		{
 			sf::Event event;
-			while (m_Window->GetNativeWindow()->pollEvent(event))
+			while ((sf::RenderWindow*)(m_Window->GetNativeWindow())->pollEvent(event))
 			{
 				if (event.type == sf::Event::Closed)
 					m_Window->GetNativeWindow()->close();
